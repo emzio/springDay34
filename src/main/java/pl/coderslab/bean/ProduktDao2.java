@@ -1,14 +1,15 @@
 package pl.coderslab.bean;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import pl.coderslab.entity.Product2;
+import pl.coderslab.entity.ProductRepository;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
+@Primary
 @Component
-public class ProduktDao2 {
+public class  ProduktDao2 implements ProductRepository {
     private List<Product2> product2List;
 
 
@@ -32,5 +33,10 @@ public class ProduktDao2 {
         return product2List.stream()
                 .filter(p -> p.getId() == id)
                 .findAny().orElse(null);
+    }
+
+    public Long getByName(String name){
+        return product2List.stream().filter(product2 -> product2.getName().equals(name)).
+                map(Product2::getId).findAny().orElse(null);
     }
 }

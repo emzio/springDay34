@@ -2,16 +2,13 @@ package pl.coderslab.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 
 @Controller
-@SessionAttributes({"loginValue"})
+@SessionAttributes({"loginValue", "loginStart"})
 public class Sessioncontroller2 {
 
     @ResponseBody
@@ -41,6 +38,27 @@ public class Sessioncontroller2 {
     return loginValue;
     }
 
+
+    @RequestMapping("/loginStart4")
+    public String loginStart4(Model model, @SessionAttribute(value = "loginValue", required = false) String loginValue){
+        if(loginValue==null){
+            loginValue = LocalDateTime.now().toString();
+            model.addAttribute("loginValue", loginValue);
+        }
+        return "loginValueJsp";
+    }
+
+    @ResponseBody
+    @RequestMapping("/loginStart41")
+    public String loginStart41(Model model, @SessionAttribute(value = "loginValue", required = false) String loginValue){
+        if(loginValue==null){
+            loginValue = LocalDateTime.now().toString();
+            model.addAttribute("loginValue", loginValue);
+        }
+        return loginValue;
+    }
+
+
     @ResponseBody
     @RequestMapping("/loginStart3")
     public String anotherSession(HttpSession session){
@@ -50,6 +68,41 @@ public class Sessioncontroller2 {
             session.setAttribute("loginValue", loginValue);
         }
         return loginValue;
+    }
+
+    @GetMapping("/loginStart5")
+    @ResponseBody
+    public String loginStart5(Model model,
+                             @SessionAttribute(value = "loginStart", required = false) String loginStart) {
+        String tmp = "";
+        if (loginStart == null) {
+            tmp =LocalDateTime.now().toString();
+            model.addAttribute("loginStart", tmp);
+        }
+        tmp = loginStart;
+        if (tmp!=null){
+            tmp = String.valueOf(LocalDateTime.parse(tmp).plusDays(10));
+        }
+//        tmp= tmp + " updated";
+        return tmp;
+    }
+
+    @ResponseBody
+    @RequestMapping("/loginStart6")
+    public String loginStart6(Model model, @SessionAttribute(value = "loginValue", required = false) String loginValue){
+        if(loginValue==null){
+            model.addAttribute("loginValue", LocalDateTime.now().toString());
+        }
+        return loginValue;
+    }
+
+    @ResponseBody
+    @RequestMapping("/loginStart61")
+    public String loginStart61(Model model, @SessionAttribute(value = "loginValue", required = false) String loginValue){
+        if(loginValue==null){
+            model.addAttribute("loginValue", LocalDateTime.now().toString());
+        }
+        return "ustawiłem atrybut sesji" + loginValue;
     }
 }
 

@@ -3,17 +3,11 @@ package pl.coderslab.bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.WebApplicationContext;
 import pl.coderslab.entity.CartItem2;
-import pl.coderslab.entity.Product;
-import pl.coderslab.entity.Product2;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.function.BinaryOperator;
 
 @Component
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -40,7 +34,8 @@ public class Cart2 {
     }
 
     public Integer getQuantity(){
-        return cartItems.stream().mapToInt(cartItem2 -> cartItem2.getQuantity())
+        return cartItems.stream().mapToInt(CartItem2::getQuantity)
+//                .sum();
                 .reduce(0, Integer::sum);
     }
 
